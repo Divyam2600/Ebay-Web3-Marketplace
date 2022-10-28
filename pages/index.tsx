@@ -25,13 +25,13 @@ const Home = () => {
           {loadingListings ? (
             <ListingsLoader />
           ) : (
-            <div className="mx-auto grid gap-5 px-2 pb-2 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-              {listings?.map((listing, i) => (
-                <Fade bottom >
+            <Fade bottom>
+              <div className="mx-auto grid gap-5 px-2 pb-2 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                {listings?.map((listing, i) => (
                   <Listing listing={listing} key={i} />
-                </Fade>
-              ))}
-            </div>
+                ))}
+              </div>
+            </Fade>
           )}
         </main>
       </div>
