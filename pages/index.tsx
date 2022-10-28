@@ -3,6 +3,7 @@ import Head from "next/head";
 import { Fragment } from "react";
 import Header from "../components/Header";
 import Listing from "../components/Listing";
+import { Fade } from "react-reveal";
 import { ListingsLoader } from "../components/Loader";
 
 const Home = () => {
@@ -26,7 +27,9 @@ const Home = () => {
           ) : (
             <div className="mx-auto grid gap-5 px-2 pb-2 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {listings?.map((listing, i) => (
-                <Listing listing={listing} key={i} />
+                <Fade bottom >
+                  <Listing listing={listing} key={i} />
+                </Fade>
               ))}
             </div>
           )}

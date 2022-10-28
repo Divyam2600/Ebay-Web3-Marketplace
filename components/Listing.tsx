@@ -3,7 +3,6 @@ import { BanknotesIcon, ClockIcon } from "@heroicons/react/24/outline";
 import { AuctionListing, DirectListing, ListingType } from "@thirdweb-dev/sdk";
 import { MediaRenderer } from "@thirdweb-dev/react";
 import { StarIcon } from "@heroicons/react/24/solid";
-import { Fade } from "react-reveal";
 
 const MAX_RATING = 5;
 const MIN_RATING = 1;
@@ -17,7 +16,6 @@ const Listing = ({ listing }: Props) => {
     Math.floor(Math.random() * (MAX_RATING - MIN_RATING + 1)) + MIN_RATING
   );
   return (
-    <Fade bottom >
       <div className="card flex flex-col">
         <div className="flex h-52 flex-1 flex-col items-center object-cover pb-2">
           <MediaRenderer
@@ -60,7 +58,6 @@ const Listing = ({ listing }: Props) => {
           </button>
         </div>
       </div>
-    </Fade>
   );
 };
 
