@@ -94,7 +94,7 @@ const Header = (props: Props) => {
           <input
             type="text"
             placeholder="Search for Anything..."
-            className="flex-1 bg-inherit outline-none placeholder:font-semibold"
+            className="flex-1 w-24 bg-inherit outline-none placeholder:font-semibold"
           />
         </div>
         <button className=" cursor- rounded-[2px] border-2 border-blue-600 bg-blue-600 px-5 py-2 font-semibold text-white md:px-10">

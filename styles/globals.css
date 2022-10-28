@@ -16,7 +16,7 @@
     @apply animate-small cursor-pointer rounded bg-blue-500 py-2 px-4 font-bold text-white;
   }
   .header-link {
-    @apply hidden cursor-pointer items-center hover:underline md:inline-flex;
+    @apply hidden cursor-pointer items-center whitespace-nowrap hover:underline md:inline-flex;
   }
   .link {
     @apply cursor-pointer text-gray-700 hover:text-blue-500 hover:underline;
