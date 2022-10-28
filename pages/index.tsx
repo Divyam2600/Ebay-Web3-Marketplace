@@ -1,7 +1,7 @@
 import { useActiveListings, useContract } from "@thirdweb-dev/react";
 import Header from "../components/Header";
-import Listings from "../components/Listings";
-import {ListingsLoader} from "../components/Loader"
+import Listing from "../components/Listing";
+import { ListingsLoader } from "../components/Loader";
 
 const Home = () => {
   const { contract } = useContract(
@@ -12,10 +12,18 @@ const Home = () => {
   const { data: listings, isLoading: loadingListings } =
     useActiveListings(contract);
   return (
-    <div className="bg-gray-100/30 min-h-screen">
+    <div className="min-h-screen bg-gray-100/30">
       <Header />
-      <main className="max-w-6xl mx-auto p-2 ">
-        {loadingListings ? <ListingsLoader /> : <Listings listings={listings} />}
+      <main className="mx-auto max-w-6xl p-2 ">
+        {loadingListings ? (
+          <ListingsLoader />
+        ) : (
+          <div className="mx-auto grid gap-5 px-2 pb-2 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            {listings?.map((listing, i) => (
+              <Listing listing={listing} key={i} />
+            ))}
+          </div>
+        )}
       </main>
     </div>
   );
