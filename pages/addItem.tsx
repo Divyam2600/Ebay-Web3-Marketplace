@@ -1,7 +1,8 @@
+import { CameraIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { useAddress, useContract } from "@thirdweb-dev/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useRef, useState } from "react";
 
 type Props = {};
 
@@ -40,6 +41,7 @@ const addItem = (props: Props) => {
       console.error(error);
     }
   };
+  const filePickerRef = useRef(null);
 
   return (
     <main className="mx-auto mb-4 max-w-6xl border p-4 xs:p-10">
@@ -50,13 +52,23 @@ const addItem = (props: Props) => {
         of the item into your wallet which we can then list for sale!
       </p>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        <div className="flex h-full w-full items-center overflow-hidden rounded-md border-2">
-          <Image
-            alt="Preview Image"
-            src={preview || "https://links.papareact.com/ucj"}
-            height={360}
-            width={360}
-          />
+        <div className="flex h-full min-h-fit w-full items-center justify-center overflow-hidden rounded-md border-2">
+          {preview ? (
+            <Image alt="Preview Image" src={preview} height={360} width={360} />
+          ) : (
+            <div className="flex flex-col items-center font-semibold sm:text-lg justify-center gap-8 py-24 ">
+              <div
+                onClick={() => filePickerRef.current?.click()}
+                className="mx-auto flex h-14 w-14 cursor-pointer items-center justify-center rounded-full bg-red-100"
+              >
+                <CameraIcon
+                  className="h-8 w-8 stroke-2 text-red-600"
+                  aria-hidden="true"
+                />
+              </div>
+              {!preview && "Click on the Icon to Select An Image."}
+            </div>
+          )}
         </div>
         <form
           onSubmit={mintNft}
@@ -88,28 +100,19 @@ const addItem = (props: Props) => {
               Description
             </label>
           </div>
-          <div className="space-y-2 rounded-md border-2 border-gray-300 py-2 px-4 hover:border-blue-600">
-            <label
-              className="block font-semibold text-gray-900 "
-              htmlFor="image_input"
-            >
-              Upload Image of Item
-            </label>
+          <div>
             <input
-              className="block w-full cursor-pointer rounded-lg border-2 border-gray-700 bg-gray-50 text-lg font-semibold text-gray-900 focus:outline-none"
-              id="image_input"
               type="file"
               accept="image/*"
+              hidden
               onChange={(e) => {
                 if (e.target.files?.[0]) {
                   setPreview(URL.createObjectURL(e.target.files[0]));
                   setImage(e.target.files[0]);
                 }
               }}
+              ref={filePickerRef}
             />
-            <p className="text-sm font-semibold  text-gray-500">
-              SVG, PNG, JPG, WEBP, GIF accpeted.
-            </p>
           </div>
           <button
             className="mx-auto w-fit cursor-pointer rounded-md bg-blue-500 py-2 px-10 font-bold text-white"
