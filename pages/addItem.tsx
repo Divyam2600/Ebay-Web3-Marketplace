@@ -41,7 +41,7 @@ const addItem = (props: Props) => {
       console.error(error);
     }
   };
-  const filePickerRef = useRef(null);
+  const filePickerRef = useRef<any>(null);
 
   return (
     <main className="mx-auto mb-4 max-w-6xl border p-4 xs:p-10">
