@@ -153,7 +153,7 @@ const create = (props: Props) => {
       {selectedNft && (
         <form
           onSubmit={handleCreateListing}
-          className="flex flex-col space-y-2 rounded-lg bg-gray-100 p-6 "
+          className="flex flex-col space-y-2 border- border-gray-300 rounded-lg bg-gray-100 p-6 "
         >
           <div className="flex flex-col space-y-4 ">
             <div className="flex w-full cursor-pointer items-center rounded-md border-2 border-gray-200 bg-[#FBFBFC] py-2 px-4 font-semibold">
