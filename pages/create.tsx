@@ -179,7 +179,7 @@ const create = (props: Props) => {
               <input
                 type="text"
                 name="price"
-                className="ml-auto -mr-1 rounded-md border-2 border-gray-200 bg-gray-100 py-3 px-5 font-normal placeholder:font-semibold"
+                className="ml-auto -mr-1 rounded-md border-2 border-gray-200 bg-gray-100 py-2 px-3 font-normal placeholder:font-semibold xs:px-5"
                 placeholder="0.0005 MATIC"
               />
             </div>

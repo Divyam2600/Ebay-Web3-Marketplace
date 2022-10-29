@@ -42,7 +42,7 @@ const addItem = (props: Props) => {
   };
 
   return (
-    <main className="mx-auto mb-4 max-w-6xl border p-10">
+    <main className="mx-auto mb-4 max-w-6xl border p-4 xs:p-10">
       <h1 className="text-4xl font-bold">Add an Item to The MarketPlace</h1>
       <h2 className="pt-5 text-xl font-semibold">Item Details</h2>
       <p className="pb-5">
@@ -50,17 +50,17 @@ const addItem = (props: Props) => {
         of the item into your wallet which we can then list for sale!
       </p>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        <div className="flex h-80 w-80 items-center overflow-hidden rounded-md border-2">
+        <div className="flex h-full w-full items-center overflow-hidden rounded-md border-2">
           <Image
             alt="Preview Image"
             src={preview || "https://links.papareact.com/ucj"}
-            height={320}
-            width={320}
+            height={360}
+            width={360}
           />
         </div>
         <form
           onSubmit={mintNft}
-          className="flex flex-1 flex-col space-y-2 rounded-md border-2 bg-white p-8 md:col-span-2"
+          className="flex w-full flex-1 flex-col space-y-2 rounded-md border-2 bg-white p-4 xs:w-full xs:p-8 md:col-span-2"
         >
           <div className="group relative z-0 w-full">
             <input
