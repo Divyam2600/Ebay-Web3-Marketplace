@@ -10,11 +10,13 @@
     "@thirdweb-dev/react": "^3.4.2",
     "@thirdweb-dev/sdk": "^3.4.2",
     "ethers": "^5.7.2",
+    "moment": "^2.29.4",
     "next": "latest",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-loading-skeleton": "^3.1.0",
     "react-reveal": "^1.2.2",
+    "recoil": "^0.7.6",
     "tailwind-scrollbar-hide": "^1.1.7"
   },
   "devDependencies": {

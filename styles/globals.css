@@ -9,10 +9,13 @@
   button {
     @apply shadow-md shadow-gray-400/30;
   }
+  html {
+    @apply min-h-screen bg-gray-100/30;
+  }
 }
 
 @layer components {
-  .connect-wallet-button {
+  .primary-button {
     @apply animate-small cursor-pointer rounded bg-blue-500 py-2 px-4 font-bold text-white;
   }
   .header-link {
@@ -29,5 +32,11 @@
   }
   .animate-small {
     @apply transition-all duration-150 ease-in-out hover:scale-105 active:scale-95;
+  }
+  .form-input {
+    @apply block w-full appearance-none rounded-md border-2 border-gray-300 bg-transparent py-2.5 px-2 text-sm font-normal text-gray-900 outline-none focus:border-blue-600 focus:ring-0;
+  }
+  .floating-label {
+    @apply pointer-events-none absolute left-2 top-3 z-10 origin-[0] -translate-y-6 scale-75 transform bg-white px-2 py-1 text-sm font-semibold text-gray-500 duration-300 peer-placeholder-shown:top-2 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:font-medium peer-focus:text-blue-600 peer-focus-visible:top-3;
   }
 }
