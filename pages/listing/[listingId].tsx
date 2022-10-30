@@ -38,6 +38,7 @@ import {
 } from "../../functions";
 import network from "../../utils/network";
 import CountDown from "react-countdown";
+import { ListingLoader } from "../../components/Loader";
 
 const ListingPage = () => {
   const { contract } = useContract(
@@ -68,7 +69,7 @@ const ListingPage = () => {
   return (
     <main className="mx-auto mb-4 grid max-w-6xl grid-cols-1 gap-5 space-y-10 p-2 pr-10 lg:grid-cols-2 lg:space-y-0">
       {isLoading ? (
-        "Loading"
+        <ListingLoader />
       ) : !listing ? (
         "Not Found"
       ) : (
@@ -94,9 +95,9 @@ const ListingPage = () => {
           />
           <section className="space-y-4 pb-20 lg:pb-0">
             <div className="w-full divide-y-2 overflow-hidden rounded-xl border-2 border-gray-300">
-              <div className="flex items-center gap-3 py-3 px-5 text-gray-700">
-                <ClockIcon className="h-7 w-7" />
-                <h1 className="-mt-0.5 text-xl font-semibold">
+              <div className="whitespace- flex items-center justify-between space-x-2 py-3 px-3 text-gray-700">
+                <ClockIcon className="h-4 w-4 xs:h-7 xs:w-7" />
+                <h1 className="-mt-0.5 text-[15px] font-semibold xs:text-lg sm:text-xl">
                   Sale Ends&nbsp;
                   {moment
                     .unix(
@@ -106,7 +107,7 @@ const ListingPage = () => {
                     )
                     .format("Do MMM, YYYY [at] hh:mm a ")}{" "}
                 </h1>
-                <ChevronDownIcon className="animate-large ml-auto h-7 w-7 cursor-pointer" />
+                <ChevronDownIcon className="animate-large hidden h-7 w-7 cursor-pointer xs:inline" />
               </div>
               <div className="flex flex-col space-y-1 bg-blue-100/30 py-3 px-5 font-semibold text-gray-500">
                 <h1 className="font-normal">Buy Now Price</h1>
@@ -132,7 +133,7 @@ const ListingPage = () => {
                   Buy Now
                 </button>
               </div>
-              <div className="grid grid-cols-3 gap-4 bg-blue-100/30 py-3 px-5 text-gray-500">
+              <div className="grid grid-cols-3 gap-4 bg-blue-100/30 py-3 px-5 text-gray-500 xs:grid-cols-2">
                 <h1 className="col-span-3 text-xl font-semibold underline sm:text-2xl">
                   {listing.type === ListingType.Direct
                     ? "Make an Offer"
@@ -160,7 +161,7 @@ const ListingPage = () => {
                     </h2>
                   </p>
                 )}
-                <div className="group relative z-0 col-span-2 w-full">
+                <div className="group relative z-0 col-span-3 w-full xs:col-span-2">
                   <input
                     type="text"
                     placeholder=" "
@@ -179,7 +180,7 @@ const ListingPage = () => {
                   </label>
                 </div>
                 <button
-                  className="side-nav-button max-w-full rounded-lg"
+                  className="side-nav-button col-span-full mx-auto max-w-full whitespace-nowrap rounded-lg xs:col-span-1 xs:mx-0"
                   onClick={() =>
                     createBidOrOffer(
                       networkMismatch,

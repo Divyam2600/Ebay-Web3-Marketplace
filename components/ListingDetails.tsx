@@ -66,9 +66,9 @@ const ListingDetails = ({
         </div>
         <div className="flex flex-col space-y-1 bg-blue-100/30 py-3 px-5 font-semibold text-gray-500">
           {data.map((item, i) => (
-            <div className="grid grid-cols-2" key={i}>
+            <div className="grid grid-cols-3 xs:grid-cols-2 gap-x-4 text-sm xs:text-base whitespace-nowrap" key={i}>
               <h1>{item.name}</h1>
-              <h2 className="truncate text-right text-blue-500">
+              <h2 className="text-right col-span-2 xs:col-span-1 text-blue-500">
                 {item.value}
               </h2>
             </div>

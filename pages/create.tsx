@@ -38,7 +38,7 @@ const create = () => {
   let target;
   return (
     <main className="mx-auto mb-4 max-w-6xl p-2">
-      <h1 className="text-4xl font-bold">List an Item</h1>
+      <h1 className="special-text">List an Item</h1>
       <h2 className="pt-5 text-xl font-semibold">
         Select An Item You Would Like To Sell
       </h2>

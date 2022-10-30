@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { Fade } from "react-reveal";
@@ -38,5 +38,47 @@ export const OwnedNFTsLoader = () => {
         ))}
       </div>
     </Fade>
+  );
+};
+
+export const ListingLoader = () => {
+  return (
+    <Fragment>
+      <div className="grid w-full grid-cols-1 gap-4">
+        <Skeleton height={300} borderRadius={"12px"} />
+        <div className="w-full divide-y-2 overflow-hidden rounded-xl border-2 border-gray-300 ">
+          <div className="py-3 px-5">
+            <Skeleton />
+          </div>
+          <div className="space-y-1 py-3 px-5">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div className="grid grid-cols-2 gap-x-4" key={i}>
+                <Skeleton />
+                <Skeleton />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div>
+        <div className="w-full divide-y-2 overflow-hidden rounded-xl border-2 border-gray-300 ">
+          <div className="py-3 px-5">
+            <Skeleton />
+          </div>
+          <div className="space-y-1 py-3 px-5">
+            <Skeleton count={2} />
+            <br />
+            <Skeleton height={40} width={150} />
+          </div>
+          <div className="space-y-1 py-3 px-5">
+            <Skeleton />
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Skeleton height={40} />
+              <Skeleton height={40} width={150} className="float-right" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </Fragment>
   );
 };
