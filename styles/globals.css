@@ -16,13 +16,13 @@
 
 @layer components {
   .primary-button {
-    @apply animate-small cursor-pointer rounded bg-blue-500 py-2 px-4 font-bold text-white;
+    @apply animate-small cursor-pointer rounded bg-blue-400 hover:bg-blue-600 py-2 px-4 font-bold text-white;
   }
   .header-link {
     @apply hidden cursor-pointer items-center whitespace-nowrap hover:underline md:inline-flex;
   }
   .link {
-    @apply cursor-pointer text-gray-700 hover:text-blue-500 hover:underline;
+    @apply cursor-pointer inline-flex items-center text-gray-700 hover:text-blue-500 hover:underline whitespace-nowrap;
   }
   .card {
     @apply animate-small cursor-pointer rounded-lg border border-gray-200 bg-gray-100/70 p-4 hover:bg-gray-200/50 active:scale-105;
@@ -38,5 +38,8 @@
   }
   .floating-label {
     @apply pointer-events-none absolute left-2 top-3 z-10 origin-[0] -translate-y-6 scale-75 transform bg-white px-2 py-1 text-sm font-semibold text-gray-500 duration-300 peer-placeholder-shown:top-2 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:font-medium peer-focus:text-blue-600 peer-focus-visible:top-3;
+  }
+  .side-nav-button {
+    @apply animate-small transition-[width] flex w-52 items-center rounded-xl border-2 border-blue-500 px-4 py-2 font-semibold text-black hover:bg-blue-600 hover:text-white;
   }
 }

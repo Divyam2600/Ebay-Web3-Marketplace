@@ -8,110 +8,36 @@ import {
   useCreateAuctionListing,
   useCreateDirectListing,
 } from "@thirdweb-dev/react";
-import { NFT, NATIVE_TOKENS, NATIVE_TOKEN_ADDRESS } from "@thirdweb-dev/sdk";
+import { NFT } from "@thirdweb-dev/sdk";
 import { useRouter } from "next/router";
-import React, { FormEvent, useState } from "react";
-import network from "../utils/network";
+import React, { useState } from "react";
 import { Fade } from "react-reveal";
 import { OwnedNFTsLoader } from "../components/Loader";
+import { handleCreateListing } from "../functions";
 
-type Props = {};
-
-const create = (props: Props) => {
+const create = () => {
   const address = useAddress();
   const { contract } = useContract(
     process.env.NEXT_PUBLIC_MARKETPLACE_CONTRACT,
     "marketplace"
   );
-
   const { contract: collectionContract } = useContract(
     process.env.NEXT_PUBLIC_COLLECTION_CONTRACT,
     "nft-collection"
   );
-
   const [selectedNft, setSelectedNft] = useState<NFT>();
-
   const networkMismatch = useNetworkMismatch();
   const [, switchNetwork] = useNetwork();
-
-  const {
-    mutate: createDirectListing,
-    isLoading: isLoadingDirect,
-    error: errorDirect,
-  } = useCreateDirectListing(contract);
-
-  const {
-    mutate: createAuctionListing,
-    isLoading: isLoadingAuction,
-    error: errorAuction,
-  } = useCreateAuctionListing(contract);
-
+  const { mutate: createDirectListing } = useCreateDirectListing(contract);
+  const { mutate: createAuctionListing } = useCreateAuctionListing(contract);
   const router = useRouter();
-
-  const handleCreateListing = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (networkMismatch) {
-      switchNetwork && switchNetwork(network);
-      return;
-    }
-    if (!selectedNft) return;
-    const target = e.target as typeof e.target & {
-      elements: { listingType: { value: string }; price: { value: string } };
-    };
-    const { listingType, price } = target.elements;
-    if (listingType.value === "directListing") {
-      createDirectListing(
-        {
-          assetContractAddress: process.env.NEXT_PUBLIC_COLLECTION_CONTRACT!,
-          tokenId: selectedNft.metadata.id,
-          currencyContractAddress: NATIVE_TOKEN_ADDRESS,
-          listingDurationInSeconds: 60 * 60 * 24 * 7, // 1 week
-          quantity: 1,
-          buyoutPricePerToken: price.value,
-          startTimestamp: new Date(),
-        },
-        {
-          onSuccess(data, variables, context) {
-            console.log("success", data, variables, context);
-            router.push("/");
-          },
-          onError(error, variables, context) {
-            console.log("error", error, variables, context);
-          },
-        }
-      );
-    }
-    if (listingType.value === "auctionListing") {
-      createAuctionListing(
-        {
-          assetContractAddress: process.env.NEXT_PUBLIC_COLLECTION_CONTRACT!,
-          tokenId: selectedNft.metadata.id,
-          currencyContractAddress: NATIVE_TOKEN_ADDRESS,
-          listingDurationInSeconds: 60 * 60 * 24 * 7,
-          quantity: 1,
-          buyoutPricePerToken: price.value,
-          startTimestamp: new Date(),
-          reservePricePerToken: 0,
-        },
-        {
-          onSuccess(data, variables, context) {
-            console.log("success", data, variables, context);
-            router.push("/");
-          },
-          onError(error, variables, context) {
-            console.log("error", error, variables, context);
-          },
-        }
-      );
-    }
-  };
-
   const { data: ownedNFTs, isLoading: loadingNfts } = useOwnedNFTs(
     collectionContract,
     address
   );
+  let target;
   return (
-    <main className="mx-auto max-w-6xl p-2">
+    <main className="mx-auto mb-4 max-w-6xl p-2">
       <h1 className="text-4xl font-bold">List an Item</h1>
       <h2 className="pt-5 text-xl font-semibold">
         Select An Item You Would Like To Sell
@@ -152,14 +78,32 @@ const create = (props: Props) => {
       )}
       {selectedNft && (
         <form
-          onSubmit={handleCreateListing}
-          className="flex flex-col space-y-2 border-2 border-gray-300 rounded-lg bg-gray-100 p-6 "
+          onSubmit={(e) => {
+            e.preventDefault();
+            target = e.target as typeof e.target & {
+              elements: {
+                listingType: { value: string };
+                price: { value: string };
+              };
+            };
+            handleCreateListing(
+              target,
+              networkMismatch,
+              createDirectListing,
+              createAuctionListing,
+              selectedNft,
+              switchNetwork,
+              router
+            );
+          }}
+          className="flex flex-col space-y-2 rounded-lg border-2 border-gray-300 bg-gray-100 p-6 "
         >
           <div className="flex flex-col space-y-4 ">
             <div className="flex w-full cursor-pointer items-center rounded-md border-2 border-gray-200 bg-[#FBFBFC] py-2 px-4 font-semibold">
               <label>Direct Listing</label>
               <input
                 type="radio"
+                required
                 name="listingType"
                 value="directListing"
                 className="ml-auto h-4 w-4"
@@ -169,6 +113,7 @@ const create = (props: Props) => {
               <label>Auction Listing</label>
               <input
                 type="radio"
+                required
                 name="listingType"
                 value="acuctionListing"
                 className="ml-auto h-4 w-4"
@@ -179,7 +124,7 @@ const create = (props: Props) => {
               <input
                 type="text"
                 name="price"
-                className="ml-auto -mr-1 rounded-md border-2 border-gray-200 bg-gray-100 py-2 px-3 font-normal placeholder:font-semibold xs:px-5"
+                className="ml-auto -mr-2 rounded-md border-2 border-gray-200 bg-gray-100 py-2 px-3 font-normal placeholder:font-semibold xs:px-5"
                 placeholder="0.0005 MATIC"
               />
             </div>

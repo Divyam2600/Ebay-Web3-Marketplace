@@ -1,19 +1,21 @@
-import React, { useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useAddress, useDisconnect, useMetamask } from "@thirdweb-dev/react";
 import Link from "next/link";
 import {
-  BellIcon,
   ChevronDownIcon,
   MagnifyingGlassIcon,
-  ShoppingCartIcon,
+  Bars3BottomRightIcon,
+  XMarkIcon,
+  SquaresPlusIcon,
 } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import { useRecoilState } from "recoil";
 import { searchTextState } from "../atoms/searchAtom";
+import { Router } from "next/router";
+import SideBar from "./SideBar";
 
-type Props = {};
 
-const Header = (props: Props) => {
+const Header = () => {
   const connectWithMetaMask = useMetamask();
   const disconnect = useDisconnect();
   const address = useAddress();
@@ -32,40 +34,48 @@ const Header = (props: Props) => {
     "Other",
     "More",
   ];
+  const [open, setOpen] = useState<boolean>(false);
+  useEffect(() => {
+    Router.events.on("routeChangeComplete", () => setOpen(false));
+    return () => {
+      Router.events.off("routeChangeComplete", () => setOpen(false));
+    };
+  }, []);
   return (
-    <div className="mx-auto max-w-6xl p-2">
+    <header className="relative mx-auto max-w-6xl p-2">
       {/* Top Navbar */}
 
       <nav className="flex justify-between">
-        <div className="flex items-center space-x-2 text-sm">
-          {address ? (
-            <button onClick={disconnect} className="primary-button">
-              Hi, {address.slice(0, 5) + "..." + address.slice(-4)}
-            </button>
-          ) : (
-            <button onClick={connectWithMetaMask} className="primary-button">
-              Connect Your Wallet
-            </button>
-          )}
-          <p className="header-link">Daily Deals</p>
-          <p className="header-link">Help & Contact</p>
-        </div>
+        {address ? (
+          <button onClick={disconnect} className="primary-button">
+            Hi, {address.slice(0, 5) + "..." + address.slice(-4)}
+          </button>
+        ) : (
+          <button onClick={connectWithMetaMask} className="primary-button">
+            Connect Your Wallet
+          </button>
+        )}
         <div className="flex items-center space-x-4 text-sm">
+          <p className="header-link">Daily Deals</p>
           <p className="header-link">Ship to</p>
           <p className="header-link">Sell</p>
-          <p className="link header-link gap-1 sm:inline-flex">
+          <p className="link gap-1 sm:inline-flex">
             WatchList
             <ChevronDownIcon className="h-4 w-4 stroke-2" />
           </p>
-          <Link href="/addItem" className="link header-link inline-flex gap-1">
-            Add to Inventory
-            <ChevronDownIcon className="h-4 w-4 stroke-2" />
-          </Link>
-          <BellIcon className="animate-large h-6 w-6 cursor-pointer" />
-          <ShoppingCartIcon className="animate-large h-6 w-6 cursor-pointer" />
+          <button
+            onClick={() => setOpen(!open)}
+            className="animate-large shadow-none"
+          >
+            {!open ? (
+              <Bars3BottomRightIcon className="h-9 w-9 " />
+            ) : (
+              <XMarkIcon className="h-9 w-9" />
+            )}
+          </button>
         </div>
       </nav>
-
+      <SideBar isOpen={open} />
       <hr className="mt-2" />
 
       {/* Middle Navbar */}
@@ -100,7 +110,8 @@ const Header = (props: Props) => {
           </button>
         </div>
         <Link href="/create">
-          <button className="hidden cursor-pointer rounded-xl border-2 border-blue-600 px-5 py-[10px] font-semibold hover:bg-blue-600/60 hover:text-white sm:inline md:px-10">
+          <button className="side-nav-button hidden max-w-fit whitespace-nowrap py-[10px] px-6 md:inline-flex">
+            <SquaresPlusIcon className="mr-2 h-6 w-6" />
             List Item
           </button>
         </Link>
@@ -117,7 +128,7 @@ const Header = (props: Props) => {
           </p>
         ))}
       </section>
-    </div>
+    </header>
   );
 };
 

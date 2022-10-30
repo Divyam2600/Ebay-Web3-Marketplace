@@ -4,26 +4,26 @@ import { AuctionListing, DirectListing, ListingType } from "@thirdweb-dev/sdk";
 import { MediaRenderer } from "@thirdweb-dev/react";
 import { StarIcon } from "@heroicons/react/24/solid";
 import moment from "moment";
-import { BigNumber } from "ethers";
+import { useRouter } from "next/router";
 
 const MAX_RATING = 5;
 const MIN_RATING = 1;
 
 type Props = {
-  item: AuctionListing | DirectListing;
+  listing: AuctionListing | DirectListing;
 };
-const Listing = ({ item }: Props) => {
+const Listing = ({ listing }: Props) => {
   const [rating] = useState(
     Math.floor(Math.random() * (MAX_RATING - MIN_RATING + 1)) + MIN_RATING
   );
 
-  const listing = item as typeof item & {
-    startTimeInSeconds: BigNumber;
-    startTimeInEpochSeconds: BigNumber;
-  };
+  const router = useRouter();
 
   return (
-    <div className="card flex flex-col">
+    <div
+      className="card flex flex-col"
+      onClick={() => router.push(`/listing/${listing.id}`)}
+    >
       <div className="flex h-52 flex-1 flex-col items-center object-cover pb-2">
         <MediaRenderer
           className="aspect-auto w-full rounded-md"
@@ -49,8 +49,9 @@ const Listing = ({ item }: Props) => {
               <span className="mr-1 text-blue-500">Hosted On :</span>
               {moment
                 .unix(
-                  listing.startTimeInSeconds?._hex ||
-                    listing.startTimeInEpochSeconds?._hex
+                  listing.type === ListingType.Direct
+                    ? listing.startTimeInSeconds
+                    : listing.startTimeInEpochSeconds
                 )
                 .format("Do MMM, YYYY")}
             </p>
